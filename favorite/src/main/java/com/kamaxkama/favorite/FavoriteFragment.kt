@@ -10,6 +10,7 @@ import com.kamaxkama.favorite.databinding.FragmentFavoriteBinding
 import com.kamaxkama.meme.ui.MemeAdapter
 import com.kamaxkama.core.domain.repository.FavoriteRepository
 import com.kamaxkama.core.di.FavoriteEntryPoint
+import com.kamaxkama.core.domain.usecase.GetFavoriteMemesUseCase
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -20,7 +21,6 @@ class FavoriteFragment : Fragment() {
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var repository: FavoriteRepository
     private lateinit var viewModel: FavoriteViewModel
 
     override fun onAttach(context: Context) {
@@ -29,8 +29,11 @@ class FavoriteFragment : Fragment() {
             context.applicationContext,
             FavoriteEntryPoint::class.java
         )
-        repository = entryPoint.favoriteRepository()
-        viewModel = FavoriteViewModel(repository)
+        val repository: FavoriteRepository = entryPoint.favoriteRepository()
+
+
+        val useCase = GetFavoriteMemesUseCase(repository)
+        viewModel = FavoriteViewModel(useCase)
     }
 
     override fun onCreateView(
@@ -60,7 +63,6 @@ class FavoriteFragment : Fragment() {
                         intent.putExtra(com.kamaxkama.meme.DetailActivity.EXTRA_FROM_FAVORITE, true)
                         startActivity(intent)
                     }
-
                 }
             }
         }

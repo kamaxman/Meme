@@ -10,6 +10,11 @@ import dagger.hilt.components.SingletonComponent
 import com.kamaxkama.core.data.local.dao.FavoriteDao
 import com.kamaxkama.core.domain.repository.FavoriteRepository
 import com.kamaxkama.core.data.repository.FavoriteRepositoryImpl
+import com.kamaxkama.core.domain.usecase.ToggleFavoriteUseCase
+import com.kamaxkama.core.domain.usecase.IsFavoriteUseCase
+import com.kamaxkama.core.domain.usecase.DeleteFavoriteUseCase
+import com.kamaxkama.core.domain.usecase.GetFavoriteMemesUseCase
+
 
 
 @Module
@@ -23,5 +28,21 @@ object RepositoryModule {
     fun provideFavoriteRepository(
         dao: FavoriteDao
     ): FavoriteRepository = FavoriteRepositoryImpl(dao)
+    @Provides
+    fun provideToggleFavoriteUseCase(repo: FavoriteRepository): ToggleFavoriteUseCase =
+        ToggleFavoriteUseCase(repo)
+
+    @Provides
+    fun provideIsFavoriteUseCase(repo: FavoriteRepository): IsFavoriteUseCase =
+        IsFavoriteUseCase(repo)
+
+    @Provides
+    fun provideDeleteFavoriteUseCase(repo: FavoriteRepository): DeleteFavoriteUseCase =
+        DeleteFavoriteUseCase(repo)
+
+    @Provides
+    fun provideGetFavoriteMemesUseCase(repo: FavoriteRepository): GetFavoriteMemesUseCase =
+        GetFavoriteMemesUseCase(repo)
+
 
 }

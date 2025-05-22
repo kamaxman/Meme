@@ -3,39 +3,36 @@ package com.kamaxkama.meme
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kamaxkama.core.domain.model.Meme
-import com.kamaxkama.core.domain.repository.FavoriteRepository
+import com.kamaxkama.core.domain.usecase.DeleteFavoriteUseCase
+import com.kamaxkama.core.domain.usecase.IsFavoriteUseCase
+import com.kamaxkama.core.domain.usecase.ToggleFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import kotlinx.coroutines.runBlocking
-
+import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    private val repository: FavoriteRepository
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
+    private val isFavoriteUseCase: IsFavoriteUseCase,
+    private val deleteFavoriteUseCase: DeleteFavoriteUseCase
 ) : ViewModel() {
 
     fun toggleFavorite(meme: Meme) {
         viewModelScope.launch {
-            val isFav = repository.isFavorite(meme.imageUrl)
-            if (isFav) {
-                repository.delete(meme)
-            } else {
-                repository.insert(meme)
-            }
+            toggleFavoriteUseCase(meme)
         }
     }
 
     fun isFavorite(url: String): Boolean {
         return runBlocking {
-            repository.isFavorite(url)
+            isFavoriteUseCase(url)
         }
     }
+
     fun delete(meme: Meme) {
         viewModelScope.launch {
-            repository.delete(meme)
+            deleteFavoriteUseCase(meme)
         }
     }
-
-
 }
