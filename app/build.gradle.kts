@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
     id("kotlin-parcelize")
+    alias(libs.plugins.hilt)
+
 }
 
 android {
@@ -39,6 +41,10 @@ android {
         jvmTarget = "11"
     }
     dynamicFeatures += setOf(":favorite")
+
+}
+kapt {
+    correctErrorTypes = true
 }
 
 dependencies {
@@ -66,4 +72,8 @@ dependencies {
     implementation(project(":core"))
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+
+    implementation("com.google.dagger:hilt-android:2.50")
+    kapt("com.google.dagger:hilt-compiler:2.50")
+    implementation("io.coil-kt:coil:2.4.0")
 }
