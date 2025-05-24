@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.dynamic.feature)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt)
+    id("com.google.dagger.hilt.android")
     kotlin("kapt")
 }
 

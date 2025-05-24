@@ -12,7 +12,10 @@ import com.kamaxkama.meme.DetailActivity
 import com.kamaxkama.meme.databinding.FragmentMainBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
